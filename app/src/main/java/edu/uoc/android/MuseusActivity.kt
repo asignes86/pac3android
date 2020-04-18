@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.uoc.android.rest.MuseumService
-import edu.uoc.android.rest.models.Element
 import edu.uoc.android.rest.models.Museums
 import kotlinx.android.synthetic.main.activity_museus.*
 import okhttp3.OkHttpClient
@@ -45,26 +44,18 @@ class MuseusActivity : AppCompatActivity() {
         call.enqueue(object : Callback<Museums> {
             override fun onResponse(call: Call<Museums>, response: Response<Museums>) {
                 if (response.code() == 200) {
-// showProgress( false );
+                    // showProgress( false );
                     museums = response.body() as Museums
                     Log.i(TAG, "Size: ${museums.elements.size}")
                     rv_museums.adapter = MyMuseumItemRecyclerViewAdapter(museums.elements)
 
                     Log.d(TAG, museums.toString())
-// Adapter <<− museums // elements
                 }
             }
 
             override fun onFailure(call: Call<Museums>, t: Throwable) {
-                Log.d(TAG, t.message)
+                Log.d(TAG, t.message!!)
             }
         })
-
     }
-
-    fun onListFragmentInteraction(item: Element) {
-
-    }
-
-
 }
