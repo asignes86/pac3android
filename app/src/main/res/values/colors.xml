@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colors Generated with https://material.io/resources/color/  -->
+    <color name="colorPrimary">#D31951</color>
+    <color name="colorPrimaryDark">#9b0029</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimaryLight">#ff5a7d</color>
+    <color name="colorPrimaryText">#ffffff</color>
+
+    <color name="bg_slash_screen">#137463</color>
+    <color name="bg_map">#B73439</color>
+    <color name="bg_museum">#B8A439</color>
+    <color name="bg_conctact">#8EB12C</color>
+    <color name="bg_quizzes">#3AA243</color>
+    <color name="bg_settings">#A135BC</color>
+    <color name="bg_help">#4370BB</color>
+</resources>
