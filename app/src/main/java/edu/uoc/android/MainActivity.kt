@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
         bt_museums.setOnClickListener {
             intent = Intent(applicationContext, MuseusActivity::class.java)
             startActivity(intent)
@@ -26,6 +30,11 @@ class MainActivity : AppCompatActivity() {
 
         bt_quizzes.setOnClickListener {
             intent = Intent(applicationContext, QuizzActivity::class.java)
+            startActivity(intent)
+        }
+
+        lv_settings.setOnClickListener {
+            intent = Intent(applicationContext, SettingsActivity::class.java)
             startActivity(intent)
         }
     }
