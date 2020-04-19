@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-    val TAG = "MapsActivity"
+    val TAG = MapsActivity::class.simpleName
 
     //Constants
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10

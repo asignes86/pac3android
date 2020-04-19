@@ -3,6 +3,8 @@ package edu.uoc.android
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import edu.uoc.android.Museus.MuseusActivity
+import edu.uoc.android.quizz.QuizzActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -19,6 +21,11 @@ class MainActivity : AppCompatActivity() {
 
         bt_maps.setOnClickListener {
             intent = Intent(applicationContext, MapsActivity::class.java)
+            startActivity(intent)
+        }
+
+        bt_quizzes.setOnClickListener {
+            intent = Intent(applicationContext, QuizzActivity::class.java)
             startActivity(intent)
         }
     }

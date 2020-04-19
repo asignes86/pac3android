@@ -1,4 +1,4 @@
-package edu.uoc.android
+package edu.uoc.android.Museus
 
 
 import android.content.Context
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import edu.uoc.android.R
 import edu.uoc.android.rest.models.Element
 import edu.uoc.android.rest.models.Museums
 import kotlinx.android.synthetic.main.fragment_museum_item.view.*
@@ -38,7 +39,7 @@ class MyMuseumItemRecyclerViewAdapter(private val mValues: List<Element>) :
 
     override fun getItemCount(): Int = mValues.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mAdrecaNomView: TextView = mView.tv_adreca_nom
         val mImatgeView: ImageView = mView.iv_imatge
     }

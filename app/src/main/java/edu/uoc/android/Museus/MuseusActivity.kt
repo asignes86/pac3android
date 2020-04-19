@@ -1,9 +1,11 @@
-package edu.uoc.android
+package edu.uoc.android.Museus
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import edu.uoc.android.ApiConstants
+import edu.uoc.android.R
 import edu.uoc.android.rest.MuseumService
 import edu.uoc.android.rest.models.Museums
 import kotlinx.android.synthetic.main.activity_museus.*
@@ -15,7 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MuseusActivity : AppCompatActivity() {
-    val TAG = "MuseusActivity"
+    val TAG = MuseusActivity::class.simpleName
     var museums: Museums = Museums()
 
 
@@ -47,7 +49,10 @@ class MuseusActivity : AppCompatActivity() {
                     // showProgress( false );
                     museums = response.body() as Museums
                     Log.i(TAG, "Size: ${museums.elements.size}")
-                    rv_museums.adapter = MyMuseumItemRecyclerViewAdapter(museums.elements)
+                    rv_museums.adapter =
+                        MyMuseumItemRecyclerViewAdapter(
+                            museums.elements
+                        )
 
                     Log.d(TAG, museums.toString())
                 }
