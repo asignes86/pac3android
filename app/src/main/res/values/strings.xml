@@ -19,4 +19,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="camera_header">Camera</string>
     <string name="open_camera">Open Camera</string>
+    <string name="no_exist_img">No existe la imagen</string>
+    <string name="saved">Saved</string>
+    <string name="error_saving_img">Error when saving image</string>
 </resources>

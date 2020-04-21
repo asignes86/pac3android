@@ -2,11 +2,12 @@ package edu.uoc.android
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -14,19 +15,23 @@ import kotlinx.android.synthetic.main.settings_activity.*
 import java.io.File
 import java.io.IOException
 
+
 class SettingsActivity : AppCompatActivity() {
     private val TAG = SettingsActivity::class.simpleName
     private val REQUEST_IMAGE_CAPTURE = 1
     private val REQUEST_TAKE_PHOTO = 2
-    private lateinit var currentPhotoPath: String
+
     lateinit var photoURI: Uri
+
+    private lateinit var imgFile: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+        createImageFile()
+        showImage()
 
         bt_camera.setOnClickListener {
-            //openCamera()
             dispatchTakePictureIntent()
         }
     }
@@ -41,12 +46,25 @@ class SettingsActivity : AppCompatActivity() {
         }
         if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Guardado", Toast.LENGTH_SHORT).show()
-
-                iv_camera.setImageURI(photoURI)
+                Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                showImage()
             } else {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error_saving_img), Toast.LENGTH_SHORT)
+                    .show()
             }
+        }
+    }
+
+    fun showImage() {
+        if (imgFile.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            iv_camera.setImageBitmap(myBitmap)
+            tv_camera.visibility = View.INVISIBLE
+            iv_camera.visibility = View.VISIBLE
+        } else {
+            tv_camera.text = getString(R.string.no_exist_img)
+            tv_camera.visibility = View.VISIBLE
+            iv_camera.visibility = View.INVISIBLE
         }
     }
 
@@ -61,16 +79,8 @@ class SettingsActivity : AppCompatActivity() {
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Log.i(TAG, ex.message)
-                    null
-                }
                 // Continue only if the File was successfully created
-                photoFile?.also {
+                imgFile.also {
                     photoURI = FileProvider.getUriForFile(
                         this,
                         "edu.uoc.android.fileprovider",
@@ -85,16 +95,10 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
+    private fun createImageFile() {
+        val IMG_NAME = "pac3android_camera"
+        val IMG_EXT = "jpg"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "pac3android_camera", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
+        imgFile = File(storageDir, "$IMG_NAME.$IMG_EXT")
     }
 }
