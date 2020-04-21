@@ -3,7 +3,7 @@ package edu.uoc.android
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import edu.uoc.android.Museus.MuseusActivity
+import edu.uoc.android.museus.MuseusActivity
 import edu.uoc.android.quizz.QuizzActivity
 import kotlinx.android.synthetic.main.activity_main.*
 

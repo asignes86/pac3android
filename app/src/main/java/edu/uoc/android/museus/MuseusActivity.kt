@@ -1,4 +1,4 @@
-package edu.uoc.android.Museus
+package edu.uoc.android.museus
 
 import android.os.Bundle
 import android.util.Log

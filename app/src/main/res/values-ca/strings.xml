@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PAC3App</string>
+    <string name="maps">Mapes</string>
+    <string name="museums">Museus</string>
+    <string name="contacts">Contactes</string>
+    <string name="quizzes">Questionaris</string>
+    <string name="settings">Ajustos</string>
+    <string name="help">Ajuda</string>
+    <string name="error_saving_img">Error guardant la imatge</string>
+    <string name="saved">Guardat</string>
+    <string name="no_exist_img">No existeix l\'imatge</string>
+    <string name="open_camera">Obrir camera</string>
+    <string name="camera_header">Camera</string>
 </resources>
