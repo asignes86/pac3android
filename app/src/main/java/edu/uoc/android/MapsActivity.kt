@@ -16,14 +16,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import edu.uoc.android.rest.MuseumService
+import edu.uoc.android.rest.RetrofitFactory
 import edu.uoc.android.rest.models.Museums
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -38,15 +35,12 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mLastKnownLocation: Location
     private var mLocationPermissionsGaranted: Boolean = false
 
-    private lateinit var museums: Museums
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-
 
         mapFragment.getMapAsync(this)
     }
@@ -60,7 +54,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         getDeviceLocation()
     }
 
-    fun getDeviceLocation() {
+    private fun getDeviceLocation() {
         val mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         try {
             if (mLocationPermissionsGaranted) {
@@ -91,7 +85,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    protected fun updateLocationUI() {
+    private fun updateLocationUI() {
         try {
             if (mLocationPermissionsGaranted) {
                 mMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
@@ -138,34 +132,14 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun setMuseumsLocations() {
-        val client = OkHttpClient()
-        val retrofit = Retrofit.Builder()
-            .baseUrl(ApiConstants.API_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val museumService = retrofit.create(MuseumService::class.java)
-
-        val call = museumService.museums("0", "20")
-        call.enqueue(object : Callback<Museums> {
+        RetrofitFactory.getMuseums().enqueue(object : Callback<Museums> {
             override fun onResponse(call: Call<Museums>, response: Response<Museums>) {
                 if (response.code() == 200) {
-                    // showProgress( false );
-                    museums = response.body() as Museums
-                    Log.i(TAG, "Size: ${museums.elements.size}")
-                    val markerBitmap =
-                        BitmapFactory.decodeResource(resources, R.drawable.ic_marker_museum)
-                    for (element in museums.elements) {
-                        val coordString = element.localitzacio.split(",")
-                        val coord = LatLng(coordString[0].toDouble(), coordString[1].toDouble())
-                        mMap.addMarker(
-                            MarkerOptions()
-                                .position(coord)
-                                .title(element.adrecaNom)
-                                .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap))
-                        )
-                    }
+                    val museums = response.body()!!
+                    Log.i(TAG, "Number of Elements returned by Museums: ${museums.elements.size}")
+                    setMarkers(museums)
+                } else {
+                    Log.e(TAG, "ResponseCode: ${response.code()} msg: ${response.message()}")
                 }
             }
 
@@ -173,6 +147,21 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.d(TAG, t.message!!)
             }
         })
+    }
+
+    private fun setMarkers(museums: Museums) {
+        val markerBitmap =
+            BitmapFactory.decodeResource(resources, R.drawable.ic_marker_museum)
+        for (element in museums.elements) {
+            val coordString = element.localitzacio.split(",")
+            val coord = LatLng(coordString[0].toDouble(), coordString[1].toDouble())
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(coord)
+                    .title(element.adrecaNom)
+                    .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap))
+            )
+        }
     }
 }
 
