@@ -12,10 +12,8 @@ import com.squareup.picasso.Picasso
 import edu.uoc.android.R
 import kotlinx.android.synthetic.main.fragment_question_item.view.*
 
-
 /**
  * [RecyclerView.Adapter] that can display a [Question].
- * TODO: Replace the implementation with code for your data type.
  */
 class MyquestionItemRecyclerViewAdapter(
     private val mValues: List<Question>,
@@ -45,7 +43,7 @@ class MyquestionItemRecyclerViewAdapter(
 
     override fun getItemCount(): Int = mValues.size
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mTitleView: TextView = mView.tv_title
         val mImage: ImageView = mView.iv_imatge
         val mChoices: LinearLayout = mView.lv_choices

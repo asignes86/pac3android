@@ -132,7 +132,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun setMuseumsLocations() {
-        RetrofitFactory.getMuseums().enqueue(object : Callback<Museums> {
+        RetrofitFactory.museumAPI.museums("0", "20").enqueue(object : Callback<Museums> {
             override fun onResponse(call: Call<Museums>, response: Response<Museums>) {
                 if (response.code() == 200) {
                     val museums = response.body()!!
