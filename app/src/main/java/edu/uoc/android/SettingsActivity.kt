@@ -84,8 +84,8 @@ class SettingsActivity : AppCompatActivity() {
 
     @Throws(IOException::class)
     private fun createImageFile() {
-        val IMG_NAME = "pac3android_camera"
-        val IMG_EXT = "jpg"
+        val IMG_NAME = getString(R.string.image_name)
+        val IMG_EXT = getString(R.string.image_extension)
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         imgFile = File(storageDir, "$IMG_NAME.$IMG_EXT")
     }
