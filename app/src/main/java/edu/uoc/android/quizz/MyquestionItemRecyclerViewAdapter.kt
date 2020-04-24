@@ -1,6 +1,7 @@
 package edu.uoc.android.quizz
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,18 @@ class MyquestionItemRecyclerViewAdapter(
         Picasso
             .get()
             .load(item.image)
+            .placeholder(R.drawable.noimage)
+            .error(R.drawable.noimage)
             .into(holder.mImage)
 
-        for (c in item.choices) {
+        for ((index, c) in item.choices.withIndex()) {
             val tvChoice = TextView(context)
             tvChoice.text = c
+
+            if (index == item.rightChoice) {
+                tvChoice.setTypeface(null, Typeface.BOLD)
+            }
+
             holder.mChoices.addView(tvChoice)
         }
     }
