@@ -12,4 +12,7 @@ interface MuseumService {
         @Path("pagIni") pagIni: String,
         @Path("pagFi") pagFi: String
     ): Call<Museums>
+
+    @GET("/api/dataset/museus/")
+    fun test(): Call<Museums>
 }
