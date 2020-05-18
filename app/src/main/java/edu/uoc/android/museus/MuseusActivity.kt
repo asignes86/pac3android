@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import edu.uoc.android.R
 import edu.uoc.android.rest.RetrofitFactory
 import edu.uoc.android.rest.models.Museums
@@ -25,6 +26,13 @@ class MuseusActivity : AppCompatActivity() {
 
         //load Museums
         getMuseums()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseAnalytics.getInstance(applicationContext)
+            .setCurrentScreen(this, this::class.java.simpleName, null)
+
     }
 
     private fun getMuseums() {

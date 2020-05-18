@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.settings_activity.*
 import java.io.File
 import java.io.FileOutputStream
@@ -20,9 +21,11 @@ class SettingsActivity : AppCompatActivity() {
     private val TAG = SettingsActivity::class.simpleName
     private val REQUEST_IMAGE_THUMBNAIL = 1
     private lateinit var imgFile: File
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(applicationContext)
         setContentView(R.layout.settings_activity)
         createImageFile()
         showImage()
@@ -32,6 +35,11 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        firebaseAnalytics.setCurrentScreen(this, this::class.java.simpleName, null)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_THUMBNAIL) {
@@ -39,7 +47,7 @@ class SettingsActivity : AppCompatActivity() {
                 val imageBitmap = data?.extras?.get("data") as Bitmap
                 saveImage(imageBitmap)
                 showImage()
-
+                logFirebaseAnalyticsEvent()
             }
         }
     }
@@ -88,5 +96,9 @@ class SettingsActivity : AppCompatActivity() {
         val IMG_EXT = getString(R.string.image_extension)
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         imgFile = File(storageDir, "$IMG_NAME.$IMG_EXT")
+    }
+
+    private fun logFirebaseAnalyticsEvent() {
+        firebaseAnalytics.logEvent("take_photo", null)
     }
 }

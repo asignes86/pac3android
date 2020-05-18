@@ -16,6 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.analytics.FirebaseAnalytics
 import edu.uoc.android.rest.RetrofitFactory
 import edu.uoc.android.rest.models.Museums
 import retrofit2.Call
@@ -43,6 +44,12 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseAnalytics.getInstance(applicationContext)
+            .setCurrentScreen(this, this::class.java.simpleName, null)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

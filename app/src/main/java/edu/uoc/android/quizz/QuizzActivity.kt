@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.uoc.android.R
 import kotlinx.android.synthetic.main.activity_quizz.*
@@ -19,6 +20,12 @@ class QuizzActivity : AppCompatActivity() {
         rv_quizz.layoutManager = LinearLayoutManager(this)
 
         getQuestions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        FirebaseAnalytics.getInstance(applicationContext)
+            .setCurrentScreen(this, this::class.java.simpleName, null)
     }
 
     private fun getQuestions() {
