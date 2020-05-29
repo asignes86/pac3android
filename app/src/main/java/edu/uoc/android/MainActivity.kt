@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.analytics.FirebaseAnalytics
+import edu.uoc.android.help.HelpActivity
 import edu.uoc.android.museus.MuseusActivity
 import edu.uoc.android.quizz.QuizzActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,6 +49,11 @@ class MainActivity : AppCompatActivity() {
 
         bt_contacts.setOnClickListener {
             intent = null
+            startActivity(intent)
+        }
+
+        lv_help.setOnClickListener {
+            intent = Intent(applicationContext, HelpActivity::class.java)
             startActivity(intent)
         }
 

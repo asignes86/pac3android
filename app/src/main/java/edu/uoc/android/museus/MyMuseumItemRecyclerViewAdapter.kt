@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_museum_item.view.*
  */
 class MyMuseumItemRecyclerViewAdapter(private val mValues: List<Element>) :
     RecyclerView.Adapter<MyMuseumItemRecyclerViewAdapter.ViewHolder>() {
-    lateinit var context: Context
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context

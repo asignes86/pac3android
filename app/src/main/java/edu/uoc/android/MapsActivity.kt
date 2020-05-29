@@ -25,11 +25,11 @@ import retrofit2.Response
 
 
 open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-    val TAG = MapsActivity::class.simpleName
+    private val tag = MapsActivity::class.simpleName
 
     //Constants
-    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 10
-    private val DEFAULT_ZOOM: Float = 17.0F
+    private val permissionRequestAccesFineLocation = 10
+    private val defaultZoom: Float = 17.0F
 
     //locations
     private lateinit var mMap: GoogleMap
@@ -74,13 +74,13 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                                 LatLng(
                                     mLastKnownLocation.latitude,
                                     mLastKnownLocation.longitude
-                                ), DEFAULT_ZOOM
+                                ), defaultZoom
                             )
                         )
 
                     } else {
-                        Log.d(TAG, "Current location is null. Using defaults.")
-                        Log.e(TAG, "Exception: %s", task.exception)
+                        Log.d(tag, "Current location is null. Using defaults.")
+                        Log.e(tag, "Exception: %s", task.exception)
                         mMap.uiSettings.isMyLocationButtonEnabled = false
                     }
                 }
@@ -88,7 +88,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
             }
         } catch (e: SecurityException) {
-            Log.e(TAG, e.message!!)
+            Log.e(tag, e.message!!)
         }
     }
 
@@ -103,7 +103,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 mMap.uiSettings.isMyLocationButtonEnabled = false
             }
         } catch (e: SecurityException) {
-            Log.e(TAG, e.message!!)
+            Log.e(tag, e.message!!)
         }
     }
 
@@ -118,7 +118,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+                permissionRequestAccesFineLocation
             )
         }
     }
@@ -130,7 +130,7 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         mLocationPermissionsGaranted = false
-        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+        if (requestCode == permissionRequestAccesFineLocation) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionsGaranted = true
             }
@@ -138,20 +138,20 @@ open class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         updateLocationUI()
     }
 
-    fun setMuseumsLocations() {
+    private fun setMuseumsLocations() {
         RetrofitFactory.museumAPI.museums("0", "20").enqueue(object : Callback<Museums> {
             override fun onResponse(call: Call<Museums>, response: Response<Museums>) {
                 if (response.code() == 200) {
                     val museums = response.body()!!
-                    Log.i(TAG, "Number of Elements returned by Museums: ${museums.elements.size}")
+                    Log.i(tag, "Number of Elements returned by Museums: ${museums.elements.size}")
                     setMarkers(museums)
                 } else {
-                    Log.e(TAG, "ResponseCode: ${response.code()} msg: ${response.message()}")
+                    Log.e(tag, "ResponseCode: ${response.code()} msg: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<Museums>, t: Throwable) {
-                Log.d(TAG, t.message!!)
+                Log.d(tag, t.message!!)
             }
         })
     }

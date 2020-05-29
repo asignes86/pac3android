@@ -18,8 +18,8 @@ import java.io.IOException
 
 
 class SettingsActivity : AppCompatActivity() {
-    private val TAG = SettingsActivity::class.simpleName
-    private val REQUEST_IMAGE_THUMBNAIL = 1
+    private val tag = SettingsActivity::class.simpleName
+    private val requestImageThumbnail = 1
     private lateinit var imgFile: File
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_THUMBNAIL) {
+        if (requestCode == requestImageThumbnail) {
             if (resultCode == RESULT_OK) {
                 val imageBitmap = data?.extras?.get("data") as Bitmap
                 saveImage(imageBitmap)
@@ -65,7 +65,7 @@ class SettingsActivity : AppCompatActivity() {
                 getString(R.string.error_saving_img),
                 Toast.LENGTH_LONG
             ).show()
-            Log.e(TAG, "${getString(R.string.error_saving_img)}: ${e.message}")
+            Log.e(tag, "${getString(R.string.error_saving_img)}: ${e.message}")
         }
     }
 
@@ -85,17 +85,17 @@ class SettingsActivity : AppCompatActivity() {
     private fun openCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_THUMBNAIL)
+                startActivityForResult(takePictureIntent, requestImageThumbnail)
             }
         }
     }
 
     @Throws(IOException::class)
     private fun createImageFile() {
-        val IMG_NAME = getString(R.string.image_name)
-        val IMG_EXT = getString(R.string.image_extension)
+        val imgName = getString(R.string.image_name)
+        val imgExt = getString(R.string.image_extension)
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        imgFile = File(storageDir, "$IMG_NAME.$IMG_EXT")
+        imgFile = File(storageDir, "$imgName.$imgExt")
     }
 
     private fun logFirebaseAnalyticsEvent() {

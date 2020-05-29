@@ -10,7 +10,7 @@ import edu.uoc.android.R
 import kotlinx.android.synthetic.main.activity_quizz.*
 
 class QuizzActivity : AppCompatActivity() {
-    val TAG = QuizzActivity::class.simpleName
+    private val TAG = QuizzActivity::class.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

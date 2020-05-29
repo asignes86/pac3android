@@ -10,6 +10,7 @@
         android:id="@+id/rv_museums"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:listitem="@layout/fragment_museum_item"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.core.widget.ContentLoadingProgressBar

@@ -16,7 +16,7 @@ import java.net.URL
 
 @RunWith(MockitoJUnitRunner::class)
 class TestServer {
-    val BODY = """{
+    private val BODY = """{
   "nom": "Museus",
   "machinename": "museus",
   "descripcio": "Museus municipals.",
@@ -137,7 +137,7 @@ class TestServer {
     }
   ]
 }"""
-    lateinit var mockServer: MockWebServer
+    private lateinit var mockServer: MockWebServer
     lateinit var mockResponse: MockResponse
     val PATH_MUSEUS = "/api/dataset/museus/"
 
